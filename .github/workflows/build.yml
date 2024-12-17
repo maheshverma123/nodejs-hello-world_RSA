@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+
+jobs:
+  build:
+    name: Build and analyze
+    runs-on: ubuntu-latest  # Use an Ubuntu runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Disable shallow clones for better analysis relevance
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Adjust if you use a different version
+
+      - name: Install dependencies
+        run: npm install  # Install your project dependencies
+
+      - name: Run SonarQube scan
+        uses: sonarsource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Token from GitHub Secrets
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}  # URL of your SonarQube instance
+
+      # Uncomment to enforce Quality Gate failure (optional)
+      # - name: Wait for Quality Gate status
+      #   uses: sonarsource/sonarqube-quality-gate-action@v1
+      #   timeout-minutes: 5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
