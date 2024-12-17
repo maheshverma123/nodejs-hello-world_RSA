@@ -1,8 +1,6 @@
-FROM node:16
-
+FROM node:14
 WORKDIR /app
-COPY . /app
+COPY . .
 RUN npm install
-RUN npm install -g sonar-scanner  # Install SonarScanner globally
+EXPOSE 80
 CMD ["node", "index.js"]
-EXPOSE 8080
