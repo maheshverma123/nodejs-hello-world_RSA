@@ -8,7 +8,7 @@ services:
     depends_on:
       - sonarqube
     environment:
-      - SONARQUBE_HOST=http://sonarqube:9000
+      - SONARQUBE_HOST=http://sonarqube:9000  # Reference SonarQube in Compose network
     networks:
       - sonar-network
 
