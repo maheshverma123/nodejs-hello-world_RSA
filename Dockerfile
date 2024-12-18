@@ -1,7 +1,13 @@
 FROM node:16
-
 WORKDIR /app
-COPY . .
+
+# Copy package files and install dependencies
+COPY package*.json ./
 RUN npm install
-CMD ["node", "index.js"]
-EXPOSE 8080
+
+# Copy only application source files
+COPY src/ /app/src/
+COPY public/ /app/public/
+
+# Start the application
+CMD ["node", "src/index.js"]
